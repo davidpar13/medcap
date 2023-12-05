@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Medcap</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+    <script src="https://kit.fontawesome.com/5f05a3a9f4.js" crossorigin="anonymous"></script>
+  </head>
+
+  <body class="bg-light-blue">
+    <%= render 'shared/navigation' %>
+    <main class="bg-white">
+      <div class="bg-white full-screen">
+        <%= yield %>
+      </div>
+    </main>
+    <%= render 'shared/footer' %>
+  </body>
+</html>

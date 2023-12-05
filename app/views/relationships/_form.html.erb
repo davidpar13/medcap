@@ -1,0 +1,39 @@
+<%= form_with(model: relationship) do |form| %>
+  <% if relationship.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(relationship.errors.count, "error") %> prohibited this relationship from being saved:</h2>
+
+      <ul>
+        <% relationship.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="mb-4">
+          <%= form.label :relationship_type, style: "display: block" %>
+          <%= form.text_field :relationship_type, class: "form-control form-control-sm" %>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="form-check form-switch mb-5">
+          <%= form.label :active, class: "ml-3" %>
+          <%= form.check_box :active, class: "form-check-input", type: "checkbox", role: "switch", id: "flexSwitchCheckDefault"  %>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-2">
+        <%= form.submit class: "btn btn-primary" %>
+      </div>
+      <div class="col-sm-2">
+        <%= link_to "Back to relationships", relationships_path, class: "btn btn-secondary" %>
+      </div>
+    </div>
+  </div>
+<% end %>

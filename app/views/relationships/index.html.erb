@@ -1,0 +1,40 @@
+<p style="color: green"><%= notice %></p>
+<div class="container">
+  <div class="row mb-5">
+    <div class="col">
+      <h1 class="text-muted">Relationships</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <table class="table table-sm border border-light">
+        <thead class="table-light">
+        <tr>
+          <th scope="col">Relationship Type</th>
+          <th scope="col">Active</th>
+          <th scope="col">Edit</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @relationships.each do |relationship| %>
+          <tr>
+            <td><%= relationship.relationship_type %></td>
+            <td><%= relationship.active_relationship %></td>
+            <td>
+              <%= link_to edit_relationship_path(relationship) do %>
+                <i class="fa-solid fa-pen"></i>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col">
+      <%= link_to "New Relationship", new_relationship_path, class: "btn btn-primary mt-2" %>
+    </div>
+  </div>
+</div>
+

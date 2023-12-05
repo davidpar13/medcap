@@ -1,0 +1,45 @@
+<%= form_with(model: language) do |form| %>
+  <% if language.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(language.errors.count, "error") %> prohibited this language from being saved:</h2>
+
+      <ul>
+        <% language.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="mb-4">
+          <%= form.label :language_name, style: "display: block" %>
+          <%= form.text_field :language_name, class: "form-control form-control-sm" %>
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <div class="mb-4">
+          <%= form.label :sort_priority, style: "display: block" %>
+          <%= form.text_field :sort_priority, class: "form-control form-control-sm" %>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="form-check form-switch mb-5">
+          <%= form.label :active, class: "ml-3" %>
+          <%= form.check_box :active, class: "form-check-input", type: "checkbox", role: "switch", id: "flexSwitchCheckDefault"  %>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-2">
+        <%= form.submit class: "btn btn-primary" %>
+      </div>
+      <div class="col-sm-2">
+        <%= link_to "Back to languages", languages_path, class: "btn btn-secondary" %>
+      </div>
+    </div>
+  </div>
+<% end %>
