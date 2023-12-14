@@ -10,4 +10,5 @@ class Language < ApplicationRecord
   end
 
   scope :ordered, -> {order(sort_priority: :asc).order(:language_name)}
+  scope :active, -> {where(active: true)}
 end

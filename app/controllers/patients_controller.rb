@@ -3,7 +3,7 @@ class PatientsController < ApplicationController
 
   # GET /patients or /patients.json
   def index
-    @patients = Patient.all
+    @patients = Patient.all.decorate
   end
 
   # GET /patients/1 or /patients/1.json
@@ -25,7 +25,7 @@ class PatientsController < ApplicationController
 
     respond_to do |format|
       if @patient.save
-        format.html { redirect_to patient_url(@patient), notice: "Patient was successfully created." }
+        format.html { redirect_to root_path, notice: "Patient was successfully created." }
         format.json { render :show, status: :created, location: @patient }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +38,7 @@ class PatientsController < ApplicationController
   def update
     respond_to do |format|
       if @patient.update(patient_params)
-        format.html { redirect_to patient_url(@patient), notice: "Patient was successfully updated." }
+        format.html { redirect_to root_path, notice: "Patient was successfully updated." }
         format.json { render :show, status: :ok, location: @patient }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -65,6 +65,7 @@ class PatientsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def patient_params
-      params.require(:patient).permit(:mrn, :first_name, :last_name, :middle_initial, :date_of_birth, :phone, :email, :deceased, :terminated, :language_id, :sex_id)
+      params.require(:patient).permit(:mrn, :first_name, :last_name, :middle_initial, :date_of_birth, :phone, :email, :deceased, :terminated, :language_id, :sex_id,
+                                      legal_guardians_attributes: %i[:_destroy id first_name last_name middle_initial date_of_birth phone email relationship_id  patient_id])
     end
 end

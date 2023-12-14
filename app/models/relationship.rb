@@ -8,5 +8,6 @@ class Relationship < ApplicationRecord
   end
 
   scope :ordered, -> {order(relationship_type: :asc)}
+  scope :active, -> {where(active: true)}
 
 end

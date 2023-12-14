@@ -1,7 +1,7 @@
 <%= form_with(model: patient) do |form| %>
   <% if patient.errors.any? %>
     <div style="color: red">
-      <h2><%= pluralize(patient.errors.count, "error") %> prohibited this patient from being saved:</h2>
+      <h5><%= pluralize(patient.errors.count, "error") %> prohibited this patient from being saved:</h5>
 
       <ul>
         <% patient.errors.each do |error| %>
@@ -11,62 +11,119 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :mrn, style: "display: block" %>
-    <%= form.text_field :mrn %>
+    <hr>
+    <div class="row mb-4">
+      <div class="col-sm-3 mt-3">
+        <h5 class="text-muted text-xl-start">Personal Information</h5>
+      </div>
+    </div>
+    <div class="row mb-4">
+      <div class="col-sm-3">
+        <%= form.label :mrn, style: "display: block" %>
+        <%= form.text_field :mrn, class: "form-control form-control-sm" %>
+      </div>
+      <div class="col-sm-3">
+        <%= form.label :first_name, style: "display: block" %>
+        <%= form.text_field :first_name, class: "form-control form-control-sm" %>
+      </div>
+      <div class="col-sm-3">
+        <%= form.label :last_name, style: "display: block" %>
+        <%= form.text_field :last_name, class: "form-control form-control-sm" %>
+      </div>
+      <div class="col-sm-2">
+        <%= form.label :middle_initial, style: "display: block" %>
+        <%= form.text_field :middle_initial, class: "form-control form-control-sm" %>
+      </div>
+    </div>
+    <div class="row mb-5">
+      <div class="col-sm-3">
+        <%= form.label :date_of_birth, style: "display: block" %>
+        <%= form.date_field :date_of_birth, class: "form-control form-control-sm" %>
+      </div>
+      <div class="col-sm-3">
+        <%= form.label :phone, style: "display: block" %>
+        <%= form.text_field :phone, class: "form-control form-control-sm" %>
+      </div>
+      <div class="col-sm-3">
+        <%= form.label :email, style: "display: block" %>
+        <%= form.text_field :email, class: "form-control form-control-sm" %>
+      </div>
+    </div>
+    <hr>
+    <div class="row mb-4">
+      <div class="col-sm-3 mt-3">
+        <h5 class="text-muted text-xl-start">Patient Status</h5>
+      </div>
+    </div>
+    <div class="row mb-5">
+      <div class="col-sm-3">
+        <div class="form-check form-switch">
+          <%= form.label :deceased %>
+          <%= form.check_box :deceased, class: "form-check-input", type: "checkbox", role: "switch" %>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="form-check form-switch">
+          <%= form.label :terminated %>
+          <%= form.check_box :terminated, class: "form-check-input", type: "checkbox", role: "switch" %>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+          <label class="form-check-label" for="flexSwitchCheckDefault">Underage</label>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="row mb-4">
+      <div class="col-sm-3 mt-3">
+        <h5 class="text-muted text-xl-start">Legal Guardians</h5>
+      </div>
+    </div>
+
+  <div data-controller="nested-form">
+    <template data-nested-form-target="template">
+      <%= form.fields_for :admission_personnels, LegalGuardian.new, child_index: 'TEMPLATE_RECORD' do |legal_guardian| %>
+        <%= render 'patient_guardians_fields', form: legal_guardian %>
+      <% end %>
+    </template>
+
+    <%= form.fields_for :admission_personnels do |legal_guardian| %>
+      <%= render 'patient_guardians_fields', form: legal_guardian %>
+    <% end %>
+
+    <div data-nested-form-target="addItem">
+      <%= link_to "Enter New Guardian", "#", class: 'btn btn-secondary', data: { action: "click->nested-form#add_association" }  %>
+    </div>
+
   </div>
+    <hr>
+    <div class="row mb-4">
+      <div class="col-sm-3 mt-3">
+        <h5 class="text-muted text-xl-start">Patient Demographics</h5>
+      </div>
+    </div>
+    <div class="row mb-5">
+      <div class="col-sm-3">
+        <%= form.label :language_id, style: "display: block" %>
+        <%= form.collection_select :language_id, Language.active.ordered, :id, :language_name, class: "form-control form-control-sm" %>
+      </div>
+      <div class="col-sm-2">
+        <%= form.label :sex_id, style: "display: block" %>
+        <%= form.collection_select :sex_id, Sex.active.ordered, :id, :sex_name, class: "form-control form-control-sm" %>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-sm-2">
+        <%= form.submit class: "btn btn-primary" %>
+      </div>
+      <div class="col-sm-2">
+        <%= link_to "Back to all patients", patients_path, class: "btn btn-secondary" %>
+      </div>
+    </div>
 
   <div>
-    <%= form.label :first_name, style: "display: block" %>
-    <%= form.text_field :first_name %>
-  </div>
 
-  <div>
-    <%= form.label :last_name, style: "display: block" %>
-    <%= form.text_field :last_name %>
-  </div>
-
-  <div>
-    <%= form.label :middle_initial, style: "display: block" %>
-    <%= form.text_field :middle_initial %>
-  </div>
-
-  <div>
-    <%= form.label :date_of_birth, style: "display: block" %>
-    <%= form.date_field :date_of_birth %>
-  </div>
-
-  <div>
-    <%= form.label :phone, style: "display: block" %>
-    <%= form.text_field :phone %>
-  </div>
-
-  <div>
-    <%= form.label :email, style: "display: block" %>
-    <%= form.text_field :email %>
-  </div>
-
-  <div>
-    <%= form.label :deceased, style: "display: block" %>
-    <%= form.check_box :deceased %>
-  </div>
-
-  <div>
-    <%= form.label :terminated, style: "display: block" %>
-    <%= form.check_box :terminated %>
-  </div>
-
-  <div>
-    <%= form.label :language_id, style: "display: block" %>
-    <%= form.text_field :language_id %>
-  </div>
-
-  <div>
-    <%= form.label :sex_id, style: "display: block" %>
-    <%= form.text_field :sex_id %>
-  </div>
-
-  <div>
-    <%= form.submit %>
   </div>
 <% end %>

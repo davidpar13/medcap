@@ -8,5 +8,6 @@ class Sex < ApplicationRecord
   end
 
   scope :ordered, -> {order(sex_name: :asc)}
+  scope :active, -> {where(active: true)}
 
 end

@@ -1,14 +1,60 @@
-<p style="color: green"><%= notice %></p>
-
-<h1>Patients</h1>
-
-<div id="patients">
-  <% @patients.each do |patient| %>
-    <%= render patient %>
-    <p>
-      <%= link_to "Show this patient", patient %>
-    </p>
-  <% end %>
+<div class="container">
+  <p style="color: green"><%= notice %></p>
+  <div class="row mb-5">
+    <div class="col">
+      <h1 class="text-muted">Patients</h1>
+      <small class="text-muted">A complete list of all patients entered and access to details and admissions.</small>
+    </div>
+    <div class="col mt-1">
+      <%= link_to new_patient_path, class: "btn btn-primary float-end" do %>
+        <i class="fa-solid fa-heart-circle-plus"></i>
+        Add New Patient
+      <% end %>
+    </div>
+  </div>
+  <small class="text-muted">
+    NOTE:
+      <i class="fa-solid fa-circle-exclamation text-warning"></i>
+    Signifies the patient has been terminated.
+  </small>
+  <div class="row mt-2">
+    <div class="col">
+      <table class="table table-sm border border-light">
+        <thead class="table-light">
+        <tr>
+          <th>MRN</th>
+          <th>Name</th>
+          <th>Date of Birth</th>
+          <th>Admissions</th>
+          <th>Patient Details</th>
+<!--          <th colspan="2"></th>-->
+        </tr>
+        </thead>
+        <tbody>
+        <% @patients.each do |patient| %>
+          <tr>
+            <td><%= patient.mrn %></td>
+            <td>
+              <% if patient.terminated %>
+                <i class="fa-solid fa-circle-exclamation text-warning"></i>
+              <% end %>
+              <%= patient.full_name %>
+            </td>
+            <td><%= patient.date_of_birth %></td>
+            <td>
+              <%= link_to '#' do %>
+                <i class="fa-solid fa-house-medical-circle-check"></i>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to edit_patient_path(patient) do %>
+                <i class="fa-solid fa-hospital-user"></i>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
-
-<%= link_to "New patient", new_patient_path %>
